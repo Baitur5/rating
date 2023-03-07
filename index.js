@@ -1,5 +1,5 @@
 
-const router = require("auth_sessions_practice/routes/auth")
+const { router } = require("auth")
 const express = require('express')
 const app = express()
 const port = 3000
@@ -24,22 +24,26 @@ app.use(
     })
 );
 
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');
 app.use("/api/", router)
+const uni_router = require("./routes/universities")
+app.use("/api/", uni_router)
 connect(
     dbURL,
-    {  useNewUrlParser: true, useUnifiedTopology: true },
+    { useNewUrlParser: true, useUnifiedTopology: true },
 ).then(() => {
     console.log("Database started")
+    // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
+    }).on("error", (err) => {
+        console.log(err)
+    })
 }).catch((err) => {
     console.log(`Error connecting to the database ${err}`)
 });
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
 
 
