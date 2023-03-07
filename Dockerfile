@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:12-alpine
 
 RUN mkdir -p /home/ubuntu/rating/actions-runner/_work/rating/rating/node_modules && chown -R node:node /home/ubuntu/rating/actions-runner/_work/rating/rating
 
