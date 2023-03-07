@@ -17,13 +17,6 @@ jobs:
       - uses: AutoModality/action-clean@v1   
       
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-#       - run: |
-#            mkdir ~/.npm-global
-#            npm config set prefix '~/.npm-global'
-#            export PATH=~/.npm-global/bin:$PATH
-#            npm install -g bats
-#            bats -v
       
 #       - name: Stop container
 #         run:  |
@@ -44,4 +37,4 @@ jobs:
       
       - name: Run the container
         run: |
-          docker run --name nodejs-image-demo -p 8007:8080 -d testdemo12/nodejs_image-demo
+          docker run --name nodejs-image-demo -p 3000:8080 -d testdemo12/nodejs_image-demo
