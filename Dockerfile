@@ -4,7 +4,7 @@ RUN mkdir -p /home/ubuntu/rating/actions-runner/_work/rating/rating/node_modules
 
 WORKDIR  /home/ubuntu/rating/actions-runner/_work/rating/rating
 
-COPY package*.json ./
+COPY package*.json ./ 
 
 USER node
 
