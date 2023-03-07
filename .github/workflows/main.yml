@@ -17,6 +17,14 @@ jobs:
       - uses: AutoModality/action-clean@v1   
       
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - run: |
+           mkdir ~/.npm-global
+           npm config set prefix '~/.npm-global'
+           echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.profile
+           source ~/.profile
+           npm install -g bats
+           bats -v
       
 #       - name: Stop container
 #         run:  |
