@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-RUN mkdir -p /home/ubuntu/rating/actions-runner/_work/rating/rating/node_modules && chown -R $USER /home/ubuntu/rating/actions-runner/_work/rating/rating
+RUN mkdir -p /home/ubuntu/rating/actions-runner/_work/rating/rating/node_modules && chown -R node:node /home/ubuntu/rating/actions-runner/_work/rating/rating
 
 WORKDIR  /home/ubuntu/rating/actions-runner/_work/rating/rating
 
@@ -10,7 +10,7 @@ USER node
 
 RUN npm install
 
-COPY --chown=$USER . .
+COPY --chown=node:node . .
 
 EXPOSE 8080
 
