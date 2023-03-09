@@ -1,15 +1,14 @@
-FROM node:18-alpine
-ENV NODE_ENV=production
+FROM node:17
 
 WORKDIR  /home/ubuntu/rating/actions-runner/_work/rating/rating
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY package*.json ./
 
-RUN npm install --production 
+RUN npm install 
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD [ "node", "server.js" ]
+CMD [ "node", "index.js" ]
 
