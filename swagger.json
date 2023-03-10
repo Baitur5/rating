@@ -1,16 +1,1014 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API",
+    "title": "Rating",
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "http://66.42.79.23:3000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
+    "/university/{university_name}/{department_name}/teachers": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "department_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "teachers": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/teachers/{teacher_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fname": {
+                  "example": "any"
+                },
+                "lname": {
+                  "example": "any"
+                },
+                "teachers": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/teachers/{teacher_id}/feedback": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "example": "any"
+                },
+                "assess": {
+                  "example": "any"
+                },
+                "teachingComplexity": {
+                  "example": "any"
+                },
+                "examComplexity": {
+                  "example": "any"
+                },
+                "learning": {
+                  "example": "any"
+                },
+                "politeness": {
+                  "example": "any"
+                },
+                "funDuringLessons": {
+                  "example": "any"
+                },
+                "wouldHireAgain": {
+                  "example": "any"
+                },
+                "usedTextbooks": {
+                  "example": "any"
+                },
+                "paysAttentionToAttendance": {
+                  "example": "any"
+                },
+                "explainsTopicClearly": {
+                  "example": "any"
+                },
+                "isStrictWithStudents": {
+                  "example": "any"
+                },
+                "teachers": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/teachers/{teacher_id}/{feedback_id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "example": "any"
+                },
+                "assess": {
+                  "example": "any"
+                },
+                "teachingComplexity": {
+                  "example": "any"
+                },
+                "examComplexity": {
+                  "example": "any"
+                },
+                "learning": {
+                  "example": "any"
+                },
+                "politeness": {
+                  "example": "any"
+                },
+                "funDuringLessons": {
+                  "example": "any"
+                },
+                "wouldHireAgain": {
+                  "example": "any"
+                },
+                "usedTextbooks": {
+                  "example": "any"
+                },
+                "paysAttentionToAttendance": {
+                  "example": "any"
+                },
+                "explainsTopicClearly": {
+                  "example": "any"
+                },
+                "isStrictWithStudents": {
+                  "example": "any"
+                },
+                "teachers": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/teachers/{teacher_id}/{feedback_id}/comment": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/universities/{university_name}/teachers": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/universities/{university_name}/{department_name}/teachers": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "department_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/teachers/{teacher_id}/feedbacks": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/teachers/search": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/universities": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "departments": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/universities/{university_name}/departments": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "departments": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/universities/{university_name}/feedbacks": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/all-info": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/university-feedback": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "university_name": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "reputation": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "capabilities": {
+                  "example": "any"
+                },
+                "internet": {
+                  "example": "any"
+                },
+                "food": {
+                  "example": "any"
+                },
+                "security": {
+                  "example": "any"
+                },
+                "environment": {
+                  "example": "any"
+                },
+                "facilityComplexity": {
+                  "example": "any"
+                },
+                "convenience": {
+                  "example": "any"
+                },
+                "commonAreas": {
+                  "example": "any"
+                },
+                "library": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                },
+                "departments": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/university-feedback/{university_name}/{feedback_id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "example": "any"
+                },
+                "reputation": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "capabilities": {
+                  "example": "any"
+                },
+                "internet": {
+                  "example": "any"
+                },
+                "food": {
+                  "example": "any"
+                },
+                "security": {
+                  "example": "any"
+                },
+                "environment": {
+                  "example": "any"
+                },
+                "facilityComplexity": {
+                  "example": "any"
+                },
+                "convenience": {
+                  "example": "any"
+                },
+                "commonAreas": {
+                  "example": "any"
+                },
+                "library": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                },
+                "departments": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/universities/{university_name}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "departments": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
+    "/universities/{university_name}/{department_name}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "department_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_name": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                },
+                "departments": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "department_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/delete-comment/{university_name}/{feedback_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "university_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/universities/search": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        }
+      }
+    },
     "/api/register": {
       "post": {
         "description": "",
@@ -31,6 +1029,9 @@
                   "example": "any"
                 },
                 "lname": {
+                  "example": "any"
+                },
+                "isAdmin": {
                   "example": "any"
                 }
               }

@@ -24,17 +24,17 @@ app.use(
     })
 );
 
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json');
-app.use("/api/", router)
-const uni_router = require("./routes/universities")
-app.use("/api/", uni_router)
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use("/api/auth/", router)
+const app_router = require("./routes/teachers")
+app.use("/api/", app_router)
 connect(
     dbURL,
     { useNewUrlParser: true, useUnifiedTopology: true },
 ).then(() => {
     console.log("Database started")
-    // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`)
     }).on("error", (err) => {

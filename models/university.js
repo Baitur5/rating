@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 
 const feedbackForm = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    comments: {
+    university: { type: mongoose.Schema.Types.ObjectId, ref: 'University', required: true },
+    comment: {
         type: String,
     },
     reputation: {
@@ -87,13 +88,42 @@ const universityForm = new mongoose.Schema({
         ref: 'Department'
     }],
     feedbacks: [
-        {
-            author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-            comment: { type: mongoose.Schema.Types.ObjectId, ref: 'universityFeedback', required: true },
-        },
+        { type: mongoose.Schema.Types.ObjectId, ref: 'universityFeedback', required: true },
     ],
 });
 
+universityForm.pre("remove", async function(next) {
+    try {
+        // Remove all departments and their associated teachers and teacher feedbacks
+        const departments = await mongoose.model("Department").find({
+            university: this._id,
+        });
+
+        for (let department of departments) {
+            const teachers = await mongoose
+                .model("Teacher")
+                .find({ department: department._id });
+
+            for (let teacher of teachers) {
+                await mongoose
+                    .model("teacherFeedback")
+                    .deleteMany({ teacher: teacher._id });
+            }
+
+            await mongoose.model("Teacher").deleteMany({ department: department._id });
+            await mongoose.model("Department").findByIdAndRemove(department._id);
+        }
+
+        // Remove all university feedbacks
+        await mongoose
+            .model("universityFeedback")
+            .deleteMany({ _id: { $in: this.feedbacks } });
+
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
 
 const University = mongoose.model("University", universityForm);
 const universityFeedback = mongoose.model("universityFeedback", feedbackForm);

@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 
 const feedbackForm = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    comments: {
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    comment: {
         type: String,
     },
     assess: {
@@ -73,23 +74,32 @@ const feedbackForm = new mongoose.Schema({
 const teacherForm = new mongoose.Schema({
     fname: { type: String, min: 3, max: 100, required: true },
     lname: { type: String, min: 3, max: 100, required: true },
+
     department: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Department',
         required: true
     },
-    university: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'University',
-        required: true
-    },
+    university: { type: mongoose.Schema.Types.ObjectId, ref: 'University', required: true },
     feedbacks: [
-        {
-            author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-            feedback: { type: mongoose.Schema.Types.ObjectId, ref: 'teacherFeedback', required: true },
-        },
+        { type: mongoose.Schema.Types.ObjectId, ref: 'teacherFeedback', required: true },
     ],
 });
+
+teacherForm.pre("remove", async function(next) {
+    try {
+        await mongoose
+            .model("teacherFeedback")
+            .deleteMany({ teacher: this._id });
+
+        next();
+    }
+    catch (err) {
+        next(err);
+    }
+});
+
+
 
 const Teacher = mongoose.model("Teacher", teacherForm);
 const teacherFeedback = mongoose.model("teacherFeedback", feedbackForm);
