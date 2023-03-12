@@ -24,17 +24,33 @@ app.use(
     })
 );
 
+const app_router = require("./routes/teachers")
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+
 app.use("/api/auth/", router)
-const app_router = require("./routes/teachers")
 app.use("/api/", app_router)
+
+var swaggerOptions = {
+    swaggerOptions: {
+        // operationsSorter: (a, b) => {
+        //     var methodsOrder = ["get", "post", "put", "patch", "delete", "options", "trace"];
+        //     var result = methodsOrder.indexOf(a.get("method")) - methodsOrder.indexOf(b.get("method"));
+
+        //     if (result === 0) {
+        //         result = a.get("path").localeCompare(b.get("path"));
+        //     }
+
+        //     return result;
+    }
+    // }
+};
 connect(
     dbURL,
     { useNewUrlParser: true, useUnifiedTopology: true },
 ).then(() => {
     console.log("Database started")
-    app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`)
     }).on("error", (err) => {

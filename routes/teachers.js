@@ -131,12 +131,12 @@ router.put("/teachers/:teacher_id/:feedback_id", restrict, validateAsync(putTeac
 
         try {
 
-            feedback = await teacherFeedback.findOne({ author: mongoose.Types.ObjectId(req.session.user._id), _id: mongoose.Types.ObjectId(req.params.feedback_id) });
+            feedback = await teacherFeedback.findOne({ _id: mongoose.Types.ObjectId(req.params.feedback_id) });
         }
         catch (err) {
             return res.status(404).send("Feedback not found for the given user");
         }
-        if (!feedback) {
+        if (!feedback || (feedback.author != req.session.user._id && !req.session.user.isAdmin)) {
             return res.status(404).send("Feedback not found for the given user");
         }
 
@@ -164,36 +164,25 @@ router.put("/teachers/:teacher_id/:feedback_id", restrict, validateAsync(putTeac
 })
 
 //delete feedback
-router.delete("/teachers/:teacher_id/:feedback_id", restrict, async (req, res) => {
+router.delete("/teachers/feedbacks/:feedback_id", restrict, async (req, res) => {
     try {
-        var feedback;
-        try {
-            feedback = await teacherFeedback.findOne({ author: mongoose.Types.ObjectId(req.session.user._id), _id: mongoose.Types.ObjectId(req.params.feedback_id) });
-        }
-        catch (err) {
-
+        const feedback = await teacherFeedback.findById(req.params.feedback_id).catch((err) => { return; })
+        if (!feedback || (feedback.author != req.session.user._id && !req.session.user.isAdmin)) {
             return res.status(404).send("Feedback not found for the given user");
         }
-        if (!feedback) {
-            return res.status(404).send("Feedback not found for the given user");
-        }
-        var teacher;
 
-        try {
+        const teacher = await Teacher.findOneAndUpdate(
+            { _id: mongoose.Types.ObjectId(feedback.teacher) },
+            { $pull: { feedbacks: mongoose.Types.ObjectId(feedback._id) } },
+            { new: true }
+        );
 
-            teacher = await Teacher.findOneAndUpdate(
-                { _id: req.params.teacher_id },
-                { $pull: { feedbacks: mongoose.Types.ObjectId(req.params.feedback_id) } },
-                { new: true }
-            );
-        } catch (err) {
-            return res.status(404).json({ message: "Teacher not found" });
-        }
-
+        console.log("Hello!")
+        console.log(teacher)
+        console.log(feedback)
         if (!teacher) {
             return res.status(404).json({ message: "Teacher not found" });
         }
-
         await teacherFeedback.deleteMany({ _id: feedback._id })
         res.status(204).send("Successfully deleted!");
     } catch (err) {
@@ -255,7 +244,7 @@ router.get("/universities/:university_name/teachers", restrict, async (req, res)
             return res.status(404).send("University not found")
         }
         const limit = req.query.limit || 0;
-        var teachers = await Teacher.find({ university: university._id }, { __v: 0 }).limit(parseInt(limit))
+        var teachers = await Teacher.find({ university: university._id }, { __v: 0, department: 0, university: 0 }).limit(parseInt(limit))
         res.status(200).json(teachers);
     }
     catch (err) {
@@ -292,7 +281,7 @@ router.get("/teachers/:teacher_id/feedbacks", restrict, async (req, res) => {
         if (!teacher) {
             return res.status(404).send("Teacher not found")
         }
-        const feedbacks = await teacher.populate({ path: "feedbacks", select: "-__v" })
+        const feedbacks = await teacher.populate({ path: "feedbacks", select: "-__v -author -teacher" })
         res.status(200).json(feedbacks.feedbacks.slice(0, parseInt(req.query.limit || feedbacks.feedbacks.length)));
     }
     catch (err) {

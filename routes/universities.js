@@ -53,9 +53,9 @@ router.get("/universities", restrict, async (req, res) => {
 router.get("/universities/:university_name/departments", restrict, async (req, res) => {
     try {
         const limit = req.query.limit || 0;
-        const universities = await University.find({ name: req.params.university_name }, { _id: 0, __v: 0, feedbacks: 0 }).populate({ path: "departments", select: '-__v', populate: { path: "teachers", select: '-__v -feedbacks' } }).limit(parseInt(limit));
+        const universities = await University.findOne({ name: req.params.university_name }, { _id: 0, __v: 0, feedbacks: 0 }).populate({ path: "departments", select: '-__v -university', }).limit(parseInt(limit));
         if (!universities) {
-            return res.status(404).send("Not found")
+            return res.status(404).send("University not found")
         }
         res.status(200).json(universities);
     }
@@ -69,10 +69,10 @@ router.get("/universities/:university_name/departments", restrict, async (req, r
 router.get("/universities/:university_name/feedbacks", restrict, async (req, res) => {
     try {
         const limit = req.query.limit || 0;
-        const universities = await University.find({ name: req.params.university_name }, { _id: 0, __v: 0, departments: 0 }).populate({ path: "feedbacks", select: '-__v' }).limit(parseInt(limit));
+        const universities = await University.findOne({ name: req.params.university_name }, { _id: 0, __v: 0, departments: 0 }).populate({ path: "feedbacks", select: '-__v -author -university' }).limit(parseInt(limit));
 
         if (!universities) {
-            return res.status(404).send("Not found")
+            return res.status(404).send("University not found")
         }
         res.status(200).json(universities);
     }
@@ -87,7 +87,7 @@ router.get("/universities/:university_name/feedbacks", restrict, async (req, res
 router.get("/all-info", restrict, async (req, res) => {
     try {
         const limit = req.query.limit || 0;
-        const universities = await University.find({}, { _id: 0, __v: 0 }).populate({ path: 'departments', select: '-__v', populate: { path: 'teachers', select: '-__v', populate: { path: 'feedbacks' } } }).populate({ path: "feedbacks", select: '-__v' }).limit(parseInt(limit));
+        const universities = await University.find({}, { _id: 0, __v: 0 }).populate({ path: 'departments', select: '-__v -university', populate: { path: 'teachers', select: '-__v -university -department', populate: { path: 'feedbacks', select: '-__v -author -teacher' } } }).populate({ path: "feedbacks", select: '-__v -author -university' }).limit(parseInt(limit));
         res.status(200).json(universities);
     }
     catch (err) {
@@ -146,13 +146,12 @@ router.put("/university-feedback/:university_name/:feedback_id", restrict, valid
         var feedback;
         try {
 
-            feedback = await universityFeedback.findOne({ author: mongoose.Types.ObjectId(req.session.user._id), _id: mongoose.Types.ObjectId(req.params.feedback_id) });
+            feedback = await universityFeedback.findOne({ _id: mongoose.Types.ObjectId(req.params.feedback_id) });
         }
         catch (err) {
-
             return res.status(404).send("Feedback not found for the given user");
         }
-        if (!feedback) {
+        if (!feedback || (feedback.author != req.session.user._id && !req.session.user.isAdmin)) {
             return res.status(404).send("Feedback not found for the given user");
         }
 
@@ -185,13 +184,14 @@ router.delete("/university-feedback/:university_name/:feedback_id", restrict, as
         var feedback;
         try {
 
-            feedback = await universityFeedback.findOne({ author: mongoose.Types.ObjectId(req.session.user._id), _id: mongoose.Types.ObjectId(req.params.feedback_id) });
+            feedback = await universityFeedback.findOne({ _id: mongoose.Types.ObjectId(req.params.feedback_id) });
         }
         catch (err) {
 
             return res.status(404).send("Feedback not found for the given user");
         }
-        if (!feedback) {
+        if (!feedback || (feedback.author != req.session.user._id && !req.session.user.isAdmin)) {
+
             return res.status(404).send("Feedback not found for the given user");
         }
 
@@ -201,10 +201,11 @@ router.delete("/university-feedback/:university_name/:feedback_id", restrict, as
 
             university = await University.findOneAndUpdate(
                 { name: req.params.university_name },
-                { $pull: { feedbacks: mongoose.Types.ObjectId(feedbackId) } },
+                { $pull: { feedbacks: mongoose.Types.ObjectId(feedback._id) } },
                 { new: true }
             );
         } catch (err) {
+            console.log(err)
             return res.status(404).json({ message: "University not found" });
         }
 
