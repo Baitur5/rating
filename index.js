@@ -25,32 +25,48 @@ app.use(
 );
 
 const app_router = require("./routes/teachers")
+
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+// const swaggerDocument = require('./doc/swagger.json');
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Hello World',
+            version: '1.0.0',
+        },
+    },
+    apis: ['./doc/*.js'], // files containing annotations as above
+};
+
+const openapiSpecification = swaggerJsdoc(options);
 
 app.use("/api/auth/", router)
 app.use("/api/", app_router)
 
-var swaggerOptions = {
-    swaggerOptions: {
-        // operationsSorter: (a, b) => {
-        //     var methodsOrder = ["get", "post", "put", "patch", "delete", "options", "trace"];
-        //     var result = methodsOrder.indexOf(a.get("method")) - methodsOrder.indexOf(b.get("method"));
+// var swaggerOptions = {
+//     swaggerOptions: {
+// operationsSorter: (a, b) => {
+//     var methodsOrder = ["get", "post", "put", "patch", "delete", "options", "trace"];
+//     var result = methodsOrder.indexOf(a.get("method")) - methodsOrder.indexOf(b.get("method"));
 
-        //     if (result === 0) {
-        //         result = a.get("path").localeCompare(b.get("path"));
-        //     }
+//     if (result === 0) {
+//         result = a.get("path").localeCompare(b.get("path"));
+//     }
 
-        //     return result;
-    }
-    // }
-};
+//     return result;
+// }
+// }
+// };
+
 connect(
     dbURL,
     { useNewUrlParser: true, useUnifiedTopology: true },
 ).then(() => {
     console.log("Database started")
-    app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+    app.use('/swagger', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`)
     }).on("error", (err) => {
