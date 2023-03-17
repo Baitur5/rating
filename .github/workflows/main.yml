@@ -18,17 +18,17 @@ jobs:
       
       - uses: actions/checkout@v2
       
-#       - name: Stop container
-#         run:  |
-#           docker container stop nodejs-image-demo
+      - name: Stop container
+        run:  |
+          docker container stop nodejs-image-demo
           
-#       - name: Remove container
-#         run:  |
-#           docker container rm nodejs-image-demo
+      - name: Remove container
+        run:  |
+          docker container rm nodejs-image-demo
           
-#       - name: Remove an image
-#         run:  |
-#           docker rmi testdemo12/nodejs_image-demo
+      - name: Remove an image
+        run:  |
+          docker rmi testdemo12/nodejs_image-demo
           
       - name: Build an image
         run: |
